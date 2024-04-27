@@ -1,26 +1,29 @@
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 
 use clap::Parser;
 
+use crate::file::*;
+
 #[derive(Parser)]
-#[command(version = "0.0.1", about = "Simple cat like command", long_about = None)]
+#[command(version = "0.1.0", about = "Simple cat like command", long_about = None)]
 pub struct Cli {
-    file: Option<PathBuf>
+    file: Option<PathBuf>,
 }
 
 impl Cli {
     pub fn run() {
         let cli = Cli::parse();
 
-        println!("{}", cli.file_is_valid());
-    }
-
-    fn file_is_valid(&self) -> bool {
-        match &self.file {
-            Some(file_path) => {
-                Path::new(file_path.to_str().unwrap()).is_file()
-            },
-            None => false
-        }
+        let file_path = match cli.file {
+            Some(path) => path,
+            None => PathBuf::from("./"),
+        };
+        let file = match File::new(file_path) {
+            Ok(result) => result,
+            Err(e) => {
+                println!("ERROR: {}", e);
+                return;
+            }
+        };
     }
 }
