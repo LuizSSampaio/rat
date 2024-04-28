@@ -15,5 +15,5 @@ fn main() {
         }
     };
 
-    file.print_file();
+    file.print_file(cli.number);
 }

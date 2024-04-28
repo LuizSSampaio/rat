@@ -21,9 +21,22 @@ impl File {
         PathBuf::from(file_path).is_file()
     }
 
-    pub fn print_file(&self) {
-        for line in read_to_string(&self.file_path).unwrap().lines() {
-            println!("{}", line);
+    pub fn print_file(&self, show_number: bool) {
+        if show_number {
+            let mut line_couter = 1;
+
+            for line in read_to_string(&self.file_path).unwrap().lines() {
+                let string_couter = line_couter.to_string();
+                let line_number =
+                    format!("{}{}", " ".repeat(6 - string_couter.len()), string_couter);
+
+                println!("{}  {}", line_number, line);
+                line_couter += 1;
+            }
+        } else {
+            for line in read_to_string(&self.file_path).unwrap().lines() {
+                println!("{}", line);
+            }
         }
     }
 }

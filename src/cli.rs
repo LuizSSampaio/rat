@@ -5,6 +5,10 @@ use clap::Parser;
 #[derive(Parser)]
 #[command(version = "0.1.0", about = "Simple cat like command", long_about = None)]
 pub struct Cli {
+    /// Number all output lines, starting with 1.
+    #[arg(short, long)]
+    pub number: bool,
+
     file: Option<PathBuf>,
 }
 
