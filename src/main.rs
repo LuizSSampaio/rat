@@ -1,8 +1,19 @@
 mod cli;
 mod file;
 
-use crate::cli::*;
+use clap::Parser;
+
+use crate::{cli::*, file::File};
 
 fn main() {
-    Cli::run();
+    let cli = Cli::parse();
+    let file = match File::new(cli.get_path()) {
+        Ok(file) => file,
+        Err(e) => {
+            println!("{}", e);
+            return;
+        }
+    };
+
+    file.print_file();
 }

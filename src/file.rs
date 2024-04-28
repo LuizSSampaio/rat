@@ -1,35 +1,28 @@
 use core::fmt;
-use std::{
-    error::Error,
-    fs::read_to_string,
-    path::{Path, PathBuf},
-};
+use std::{error::Error, fs::read_to_string, path::PathBuf};
 
 #[derive(Debug)]
 pub struct File {
-    file_path: PathBuf,
+    file_path: String,
 }
 
 impl File {
-    pub fn new(file_path: PathBuf) -> Result<Self, FileError> {
-        if !Self::is_valid(file_path.as_path()) {
+    pub fn new(file_path: &str) -> Result<Self, FileError> {
+        if !Self::is_valid(file_path) {
             return Err(FileError::FileNotFound);
         }
 
         Ok(Self {
-            file_path: file_path.to_path_buf(),
+            file_path: file_path.to_string(),
         })
     }
 
-    fn is_valid(file_path: &Path) -> bool {
-        file_path.is_file()
+    fn is_valid(file_path: &str) -> bool {
+        PathBuf::from(file_path).is_file()
     }
 
     pub fn print_file(&self) {
-        for line in read_to_string(self.file_path.to_str().unwrap())
-            .unwrap()
-            .lines()
-        {
+        for line in read_to_string(&self.file_path).unwrap().lines() {
             println!("{}", line);
         }
     }
