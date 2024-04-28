@@ -25,5 +25,6 @@ impl Cli {
                 return;
             }
         };
+        file.print_file();
     }
 }

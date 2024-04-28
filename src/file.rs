@@ -1,6 +1,7 @@
 use core::fmt;
 use std::{
     error::Error,
+    fs::read_to_string,
     path::{Path, PathBuf},
 };
 
@@ -22,6 +23,15 @@ impl File {
 
     fn is_valid(file_path: &Path) -> bool {
         file_path.is_file()
+    }
+
+    pub fn print_file(&self) {
+        for line in read_to_string(self.file_path.to_str().unwrap())
+            .unwrap()
+            .lines()
+        {
+            println!("{}", line);
+        }
     }
 }
 
